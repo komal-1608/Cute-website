@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Favorite Person ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Music -->
+  <audio id="bg-music" src="song.mp3" loop></audio>
+
+  <!-- Envelope Screen -->
+  <div id="envelope-screen" class="screen active">
+    <div class="envelope" onclick="openEnvelope()">
+      <div class="envelope-flap"></div>
+      <div class="heart-seal">❤️️</div>
+      <p class="tap-text">Click to Open 💌</p>
+    </div>
+  </div>
+
+  <!-- Main Content Screen -->
+  <div id="main-screen" class="screen">
+    <button id="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
+    
+    <header>
+      <h1>Welcome to Your Cute Corner ✨</h1>
+      <p>For the best boyfriend in the world 💕</p>
+    </header>
+
+    <!-- Photo Cards -->
+    <div class="gallery">
+      <div class="card">
+        <img src="photo1.jpg" alt="Memory 1">
+        <p>Your Cute Smile 💕</p>
+      </div>
+      <div class="card">
+        <img src="photo2.jpg" alt="Memory 2">
+        <p>Favorite Moment ✨</p>
+      </div>
+      <div class="card">
+        <img src="photo3.jpg" alt="Memory 3">
+        <p>Always Together 🔒</p>
+      </div>
+    </div>
+
+    <!-- Certificate Section -->
+    <div class="certificate">
+      <h2>🏆 Certificate of Excellence</h2>
+      <p>This certifies that you are officially the</p>
+      <h3>Best Boyfriend Ever ❤️</h3>
+      <p>Awarded with endless love!</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
