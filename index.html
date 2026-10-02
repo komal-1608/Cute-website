@@ -3,57 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Favorite Person ❤️</title>
-  <link rel="stylesheet" href="style.css">
+  <title>A Special Surprise for You ❤️</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffe6eb;
+      color: #4a4a4a;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    h1 { color: #ff4d6d; }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 250px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 3px solid #ffccd5;
+    }
+    .admin-panel {
+      background: #fff0f3;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px dashed #ff4d6d;
+    }
+    button {
+      background-color: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover { background-color: #c9184a; }
+    input[type="file"] { margin: 10px 0; }
+  </style>
 </head>
 <body>
 
-  <!-- Background Music -->
-  <audio id="bg-music" src="song.mp3" loop></audio>
+  <div class="container">
+    <h1>Special Memories ❤️</h1>
 
-  <!-- Envelope Screen -->
-  <div id="envelope-screen" class="screen active">
-    <div class="envelope" onclick="openEnvelope()">
-      <div class="envelope-flap"></div>
-      <div class="heart-seal">❤️️</div>
-      <p class="tap-text">Click to Open 💌</p>
+    <!-- Admin Panel to Upload & Create Link -->
+    <div id="adminPanel" class="admin-panel">
+      <h3>Create Your Secret Link 🔒</h3>
+      <p>Select 3 photos to generate a unique link only for them:</p>
+      <input type="file" id="imgInput" accept="image/*" multiple><br>
+      <button onclick="generateLink()">Generate Secret Link</button>
+      <div id="linkResult" style="margin-top: 15px; word-break: break-all;"></div>
     </div>
+
+    <!-- Image Display Gallery -->
+    <div class="gallery" id="photoGallery"></div>
   </div>
 
-  <!-- Main Content Screen -->
-  <div id="main-screen" class="screen">
-    <button id="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
-    
-    <header>
-      <h1>Welcome to Your Cute Corner ✨</h1>
-      <p>For the best boyfriend in the world 💕</p>
-    </header>
+  <script>
+    // Load images from URL Hash if available
+    window.onload = function() {
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        // Hide upload panel for the viewer
+        document.getElementById('adminPanel').style.display = 'none';
+        
+        // Unpack images from secret hash
+        const images = hash.split('||');
+        const gallery = document.getElementById('photoGallery');
+        images.forEach(src => {
+          if(src) {
+            const img = document.createElement('img');
+            img.src = src;
+            gallery.appendChild(img);
+          }
+        });
+      }
+    };
 
-    <!-- Photo Cards -->
-    <div class="gallery">
-      <div class="card">
-        <img src="photo1.jpg" alt="Memory 1">
-        <p>Your Cute Smile 💕</p>
-      </div>
-      <div class="card">
-        <img src="photo2.jpg" alt="Memory 2">
-        <p>Favorite Moment ✨</p>
-      </div>
-      <div class="card">
-        <img src="photo3.jpg" alt="Memory 3">
-        <p>Always Together 🔒</p>
-      </div>
-    </div>
+    // Convert photos to base64 secret string
+    function generateLink() {
+      const input = document.getElementById('imgInput');
+      if (input.files.length === 0) {
+        alert('Please select at least 1 image!');
+        return;
+      }
 
-    <!-- Certificate Section -->
-    <div class="certificate">
-      <h2>🏆 Certificate of Excellence</h2>
-      <p>This certifies that you are officially the</p>
-      <h3>Best Boyfriend Ever ❤️</h3>
-      <p>Awarded with endless love!</p>
-    </div>
-  </div>
+      let imgDataArray = [];
+      let loadedCount = 0;
 
-  <script src="script.js"></script>
+      for (let i = 0; i < input.files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imgDataArray.push(e.target.result);
+          loadedCount++;
+          if (loadedCount === input.files.length) {
+            const secretHash = imgDataArray.join('||');
+            const secretURL = window.location.origin + window.location.pathname + '#' + secretHash;
+            
+            document.getElementById('linkResult').innerHTML = `
+              <p><b>Your Secret Link is ready!</b> Copy and send this link:</p>
+              <input type="text" value="${secretURL}" id="secretLinkInput" style="width:100%; padding:8px;" readonly><br>
+              <button onclick="copyLink()">Copy Link</button>
+            `;
+          }
+        };
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+
+    function copyLink() {
+      const copyText = document.getElementById("secretLinkInput");
+      copyText.select();
+      document.execCommand("copy");
+      alert("Secret Link Copied!");
+    }
+  </script>
+
 </body>
 </html>
