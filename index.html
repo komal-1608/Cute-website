@@ -229,6 +229,15 @@ textarea{
   font-size:27px;
   color:#d86c76;
 }
+
+.share-box {
+  margin-top: 15px;
+  padding: 10px;
+  background: #fffafa;
+  border: 1px dashed #d86c76;
+  border-radius: 12px;
+  word-break: break-all;
+}
 </style>
 </head>
 
@@ -238,47 +247,29 @@ textarea{
 
 <!-- PAGE 1 -->
 <div class="card" id="page1">
-
   <div class="heart">💌</div>
-
   <div class="small">A little surprise</div>
-
   <h1>Hey You! ♡</h1>
-
-  <p>
-    Create a little memory-filled surprise
-    for someone special.
-  </p>
+  <p>Create a little memory-filled surprise for someone special.</p>
 
   <div class="input-group">
     <label>Who is this surprise for? 💕</label>
-    <input type="text" id="receiverName"
-           placeholder="Enter their name">
+    <input type="text" id="receiverName" placeholder="Enter their name">
   </div>
 
   <div class="input-group">
     <label>Your name ✨</label>
-    <input type="text" id="senderName"
-           placeholder="Enter your name">
+    <input type="text" id="senderName" placeholder="Enter your name">
   </div>
 
-  <button class="btn" onclick="goPage(2)">
-    Next ✨
-  </button>
-
+  <button class="btn" onclick="goPage(2)">Next ✨</button>
 </div>
-
 
 <!-- PAGE 2 -->
 <div class="card hidden" id="page2">
-
   <div class="small">Step 2</div>
-
   <h2>Add Photos 📸</h2>
-
-  <p>
-    Choose the pictures you want to include.
-  </p>
+  <p>Choose the pictures you want to include.</p>
 
   <div class="input-group">
     <label>Main photo</label>
@@ -287,186 +278,149 @@ textarea{
 
   <div class="input-group">
     <label>Cute / funny photos</label>
-    <input type="file" id="memoryPhotos"
-           accept="image/*" multiple>
+    <input type="file" id="memoryPhotos" accept="image/*" multiple>
   </div>
 
-  <button class="btn" onclick="goPage(3)">
-    Next 💕
-  </button>
-
+  <button class="btn" onclick="goPage(3)">Next 💕</button>
 </div>
-
 
 <!-- PAGE 3 -->
 <div class="card hidden" id="page3">
-
   <div class="small">Step 3</div>
-
   <h2>Write Something 💭</h2>
+  <p>Write a message that you want them to read.</p>
 
-  <p>
-    Write a message that you want them to read.
-  </p>
+  <textarea id="message" rows="7" placeholder="Write your message here..."></textarea>
 
-  <textarea id="message"
-            rows="7"
-            placeholder="Write your message here..."></textarea>
-
-  <button class="btn" onclick="goPage(4)">
-    Next ✨
-  </button>
-
+  <button class="btn" onclick="goPage(4)">Next ✨</button>
 </div>
-
 
 <!-- PAGE 4 -->
 <div class="card hidden" id="page4">
-
   <div class="small">Step 4</div>
-
   <h2>Cute & Funny Memories 😂</h2>
-
-  <p>
-    These pictures will appear in the memory section.
-  </p>
+  <p>These pictures will appear in the memory section.</p>
 
   <div id="memoryPreview" class="preview-grid"></div>
 
-  <button class="btn" onclick="goPage(5)">
-    Next 🎵
-  </button>
-
+  <button class="btn" onclick="goPage(5)">Next 🎵</button>
 </div>
-
 
 <!-- PAGE 5 -->
 <div class="card hidden" id="page5">
-
   <div class="small">Step 5</div>
-
   <h2>Our Song 🎵</h2>
-
-  <p>
-    Add a song for the surprise.
-  </p>
+  <p>Add a song for the surprise.</p>
 
   <div class="input-group">
     <label>Choose song</label>
-    <input type="file" id="song"
-           accept="audio/*">
+    <input type="file" id="song" accept="audio/*">
   </div>
 
   <div class="song-box">
-
-    <div class="song-title">
-      A little song for this moment ♡
-    </div>
-
-    <audio id="songPlayer"
-           controls
-           style="width:100%;margin-top:10px;">
-    </audio>
-
+    <div class="song-title">A little song for this moment ♡</div>
+    <audio id="songPlayer" controls style="width:100%;margin-top:10px;"></audio>
   </div>
 
-  <button class="btn" onclick="goPage(6)">
-    Next 🏆
-  </button>
-
+  <button class="btn" onclick="goPage(6)">Next 🏆</button>
 </div>
-
 
 <!-- PAGE 6 -->
 <div class="card hidden" id="page6">
-
   <div class="small">Step 6</div>
-
   <h2>Certificate 🏆</h2>
 
   <div class="certificate">
-
-    <div class="cert-title">
-      Certificate of Being My Favourite Person
-    </div>
-
-    <p>
-      This certificate is proudly presented to
-    </p>
-
-    <div class="cert-name"
-         id="certificateName">
-      Your Name
-    </div>
-
-    <img id="certificatePhoto"
-         class="main-photo"
-         alt="Memory">
-
+    <div class="cert-title">Certificate of Being My Favourite Person</div>
+    <p>This certificate is proudly presented to</p>
+    <div class="cert-name" id="certificateName">Your Name</div>
+    <img id="certificatePhoto" class="main-photo" alt="Memory">
     <div class="duties">
-
       ✿ Official favourite person<br>
-
       ✿ Professional smile maker<br>
-
       ✿ Certified memory collector<br>
-
       ✿ Valid forever ♡
-
     </div>
-
   </div>
 
-  <button class="btn" onclick="goPage(7)">
-    Continue 💌
-  </button>
-
+  <button class="btn" onclick="goPage(7)">Continue 💌</button>
 </div>
-
 
 <!-- PAGE 7 -->
 <div class="card hidden" id="page7">
-
   <div class="small">One last thing...</div>
-
   <h2>For You 💌</h2>
 
-  <img id="finalPhoto"
-       class="final-photo"
-       alt="Final memory">
+  <img id="finalPhoto" class="final-photo" alt="Final memory">
+  <div class="note" id="finalNote"></div>
+  <p style="margin-top:20px;">Made with lots of memories ♡</p>
+  <div id="finalNames" style="font-family:'Caveat';font-size:26px;color:#d86c76;"></div>
 
-  <div class="note"
-       id="finalNote">
+  <button class="btn" id="generateBtn" onclick="generateShareLink()" style="margin-top:20px;">
+    Generate Shareable Link 🔗
+  </button>
+
+  <div id="linkArea" class="hidden share-box">
+    <p style="margin:0 0 5px;font-size:11px;font-weight:600;">Your Shareable Link:</p>
+    <input type="text" id="shareUrl" readonly style="margin-bottom:8px;font-size:11px;text-align:center;">
+    <button class="btn secondary" onclick="copyLink()">Copy Link 📋</button>
   </div>
-
-  <p style="margin-top:20px;">
-    Made with lots of memories ♡
-  </p>
-
-  <div id="finalNames"
-       style="font-family:'Caveat';font-size:26px;color:#d86c76;">
-  </div>
-
 </div>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+const SUPABASE_URL = "https://tmiglekwipvekeretmhg.supabase.co";
+const SUPABASE_KEY = "sb_publishable_01fL_PGsG3K7H_zcANUtig_4uuBjB9C";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let receiverName = "";
 let senderName = "";
+let mainPhotoBase64 = "";
+
+// Check if URL has surprise ID
+window.addEventListener('DOMContentLoaded', async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const surpriseId = urlParams.get('id');
+
+  if (surpriseId) {
+    // Load from Supabase directly to View Mode
+    const { data, error } = await supabaseClient
+      .from('surprises')
+      .select('*')
+      .eq('id', surpriseId)
+      .single();
+
+    if (data) {
+      receiverName = data.receiver_name || "";
+      senderName = data.sender_name || "";
+      
+      document.getElementById("certificateName").innerText = receiverName;
+      document.getElementById("finalNote").innerText = data.message || "";
+      document.getElementById("finalNames").innerText = senderName + " ♡ " + receiverName;
+
+      if (data.main_photo) {
+        document.getElementById("certificatePhoto").src = data.main_photo;
+        document.getElementById("finalPhoto").src = data.main_photo;
+      }
+
+      // Hide all pages, show final page
+      for (let i = 1; i <= 7; i++) {
+        document.getElementById("page" + i).classList.add("hidden");
+      }
+      document.getElementById("page7").classList.remove("hidden");
+      document.getElementById("generateBtn").classList.add("hidden");
+    }
+  }
+});
 
 function goPage(number){
-
   if(number === 2){
-
-    receiverName =
-      document.getElementById("receiverName").value.trim();
-
-    senderName =
-      document.getElementById("senderName").value.trim();
-
+    receiverName = document.getElementById("receiverName").value.trim();
+    senderName = document.getElementById("senderName").value.trim();
     if(!receiverName || !senderName){
       alert("Please enter both names 💕");
       return;
@@ -474,41 +428,32 @@ function goPage(number){
   }
 
   if(number === 3){
-
-    const mainPhoto =
-      document.getElementById("mainPhoto").files[0];
-
+    const mainPhoto = document.getElementById("mainPhoto").files[0];
     if(!mainPhoto){
       alert("Please choose a main photo 📸");
       return;
     }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      mainPhotoBase64 = e.target.result;
+    };
+    reader.readAsDataURL(mainPhoto);
   }
 
   if(number === 4){
-
-    const text =
-      document.getElementById("message").value.trim();
-
+    const text = document.getElementById("message").value.trim();
     if(!text){
       alert("Please write a message 💌");
       return;
     }
-
     createMemoryPreview();
   }
 
   if(number === 5){
-
-    const song =
-      document.getElementById("song").files[0];
-
+    const song = document.getElementById("song").files[0];
     if(song){
-
-      const player =
-        document.getElementById("songPlayer");
-
-      player.src =
-        URL.createObjectURL(song);
+      const player = document.getElementById("songPlayer");
+      player.src = URL.createObjectURL(song);
     }
   }
 
@@ -521,133 +466,106 @@ function goPage(number){
   }
 
   for(let i=1;i<=7;i++){
-    document
-      .getElementById("page"+i)
-      .classList.add("hidden");
+    document.getElementById("page"+i).classList.add("hidden");
   }
 
-  document
-    .getElementById("page"+number)
-    .classList.remove("hidden");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  document.getElementById("page"+number).classList.remove("hidden");
+  window.scrollTo({ top:0, behavior:"smooth" });
 }
 
-
 function createMemoryPreview(){
-
-  const container =
-    document.getElementById("memoryPreview");
-
+  const container = document.getElementById("memoryPreview");
   container.innerHTML = "";
-
-  const files =
-    document.getElementById("memoryPhotos").files;
+  const files = document.getElementById("memoryPhotos").files;
 
   if(files.length === 0){
-
-    container.innerHTML =
-      "<p>No memory photos added yet.</p>";
-
+    container.innerHTML = "<p>No memory photos added yet.</p>";
     return;
   }
 
   Array.from(files).slice(0,6).forEach(file=>{
-
-    const reader =
-      new FileReader();
-
+    const reader = new FileReader();
     reader.onload=function(e){
-
-      const div =
-        document.createElement("div");
-
+      const div = document.createElement("div");
       div.className="polaroid";
-
-      div.innerHTML =
-        `<img src="${e.target.result}">`;
-
+      div.innerHTML = `<img src="${e.target.result}">`;
       container.appendChild(div);
     };
-
     reader.readAsDataURL(file);
   });
 }
 
-
 function prepareCertificate(){
-
-  document.getElementById("certificateName")
-    .innerText = receiverName;
-
-  const file =
-    document.getElementById("mainPhoto").files[0];
-
+  document.getElementById("certificateName").innerText = receiverName;
+  const file = document.getElementById("mainPhoto").files[0];
   if(file){
-
-    const reader =
-      new FileReader();
-
+    const reader = new FileReader();
     reader.onload=function(e){
-
-      document.getElementById(
-        "certificatePhoto"
-      ).src=e.target.result;
-
+      document.getElementById("certificatePhoto").src=e.target.result;
     };
-
     reader.readAsDataURL(file);
   }
 }
-
 
 function prepareFinalPage(){
+  const message = document.getElementById("message").value.trim();
+  document.getElementById("finalNote").innerText = message;
+  document.getElementById("finalNames").innerText = senderName + " ♡ " + receiverName;
 
-  const message =
-    document.getElementById("message").value.trim();
-
-  document.getElementById("finalNote")
-    .innerText = message;
-
-  document.getElementById("finalNames")
-    .innerText =
-    senderName + " ♡ " + receiverName;
-
-  const file =
-    document.getElementById("mainPhoto").files[0];
-
+  const file = document.getElementById("mainPhoto").files[0];
   if(file){
-
-    const reader =
-      new FileReader();
-
+    const reader = new FileReader();
     reader.onload=function(e){
-
-      document.getElementById(
-        "finalPhoto"
-      ).src=e.target.result;
-
+      document.getElementById("finalPhoto").src=e.target.result;
     };
-
     reader.readAsDataURL(file);
   }
 }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+async function generateShareLink() {
+  const btn = document.getElementById("generateBtn");
+  btn.innerText = "Generating Link... ⏳";
+  btn.disabled = true;
 
-<script>
-const SUPABASE_URL = "https://tmiglekwipvekeretmhg.supabase.co";
-const SUPABASE_KEY = "sb_publishable_O1fL_PGsG3K7H_zcANUtig_4uuBjB9C";
+  const message = document.getElementById("message").value.trim();
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  try {
+    const { data, error } = await supabaseClient
+      .from('surprises')
+      .insert([
+        {
+          sender_name: senderName,
+          receiver_name: receiverName,
+          message: message,
+          main_photo: mainPhotoBase64
+        }
+      ])
+      .select();
+
+    if (error) throw error;
+
+    if (data && data[0]) {
+      const generatedId = data[0].id;
+      const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
+      
+      document.getElementById("shareUrl").value = fullUrl;
+      document.getElementById("linkArea").classList.remove("hidden");
+      btn.innerText = "Link Generated! ✨";
+    }
+  } catch (err) {
+    alert("Error creating link: " + err.message);
+    btn.innerText = "Generate Shareable Link 🔗";
+    btn.disabled = false;
+  }
+}
+
+function copyLink() {
+  const copyText = document.getElementById("shareUrl");
+  copyText.select();
+  navigator.clipboard.writeText(copyText.value);
+  alert("Copied link to clipboard! 📋 Send it to your special someone!");
+}
 </script>
-
 
 </body>
 </html>
