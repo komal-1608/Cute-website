@@ -3,78 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Little Surprise 💌</title>
+  <title>A Little Surprise ❤️</title>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.com/npm/@supabase/supabase-js@2"></script>
   
   <style>
     * {
       box-sizing: border-box;
-    }
-
-    body {
       margin: 0;
-      padding: 20px 15px;
-      min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      background: #fff5f6;
-      color: #4b383b;
+      padding: 0;
     }
-
-    /* Welcome Overlay Screen */
-    .welcome-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe6e8 0%, #ffcaee 100%);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
-      text-align: center;
+      padding: 20px;
+      color: #4a4a4a;
     }
-
-    .welcome-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 35px 25px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      max-width: 88%;
-      width: 360px;
-    }
-
-    .sparkle-text {
-      color: #ff4b2b;
-      font-size: 24px;
-      font-family: 'Caveat', cursive;
-      margin-bottom: 10px;
-    }
-
-    .heart-container {
-      margin-top: 25px;
-      cursor: pointer;
-    }
-
-    .glowing-heart {
-      font-size: 75px;
-      animation: pulseGlow 1.5s infinite ease-in-out;
-      display: inline-block;
-    }
-
-    @keyframes pulseGlow {
-      0% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
-      50% { transform: scale(1.25); text-shadow: 0 0 25px #ff416c, 0 0 40px #ff4b2b; }
-      100% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
-    }
-
     .container {
       width: 100%;
       max-width: 430px;
       margin: auto;
     }
-
     .card {
       background: #fff;
       border: 2px solid #f1cdd2;
@@ -83,436 +36,385 @@
       margin-bottom: 20px;
       box-shadow: 0 10px 25px rgba(180, 100, 110, 0.12);
       text-align: center;
+      position: relative;
     }
-
     .hidden {
       display: none !important;
     }
-
-    h1, h2, h3 {
+    h1 {
       font-family: 'Caveat', cursive;
-      margin: 10px 0;
+      font-size: 2.2rem;
+      color: #ff4b72;
+      margin-bottom: 12px;
     }
-
-    h1 { font-size: 34px; color: #d86c76; }
-    h2 { font-size: 28px; color: #d86c76; }
-
-    p { font-size: 14px; color: #665255; line-height: 1.5; }
-
-    .input-group {
-      text-align: left;
+    p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #666;
       margin-bottom: 15px;
     }
-
-    label {
-      font-size: 13px;
-      font-weight: 600;
-      display: block;
-      margin-bottom: 5px;
-      color: #7a585c;
-    }
-
-    input[type="text"], textarea, input[type="file"] {
+    input, textarea {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #e0c5c8;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 1.5px solid #ffccd5;
       border-radius: 12px;
-      background: #fffbfb;
-      font-size: 14px;
+      font-family: inherit;
       outline: none;
+      transition: all 0.3s ease;
     }
-
-    textarea {
-      resize: vertical;
-      height: 90px;
+    input:focus, textarea:focus {
+      border-color: #ff4b72;
+      box-shadow: 0 0 8px rgba(255, 75, 114, 0.2);
     }
-
-    .btn {
-      background: #e5838d;
+    button {
+      background: linear-gradient(135deg, #ff6b8b, #ff4b72);
       color: white;
       border: none;
-      padding: 12px 25px;
+      padding: 12px 24px;
       border-radius: 20px;
-      font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(229, 131, 141, 0.4);
-      margin-top: 15px;
-      width: 100%;
-    }
-
-    .btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    .preview-img {
-      max-width: 100%;
-      max-height: 220px;
-      border-radius: 15px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-      margin: 15px auto;
-      display: block;
-      object-fit: cover;
-    }
-
-    .cert-frame {
-      border: 3px double #e5838d;
-      padding: 15px;
-      border-radius: 20px;
-      background: #fffafb;
-    }
-
-    .avatar-circle {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #fff;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-      margin: 10px auto;
-      display: block;
-    }
-
-    .badge-list {
-      text-align: left;
-      font-size: 12px;
-      background: #fff;
-      padding: 10px 15px;
-      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(255, 75, 114, 0.3);
+      transition: transform 0.2s ease;
       margin-top: 10px;
-      border: 1px solid #f3d0d4;
     }
-
-    .badge-list div {
-      margin: 5px 0;
+    button:active {
+      transform: scale(0.96);
+    }
+    .heart-btn {
+      font-size: 3rem;
+      background: none;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .cert-box {
+      border: 3px dashed #ff4b72;
+      border-radius: 15px;
+      padding: 15px;
+      background: #fff9fa;
+      margin-top: 15px;
+    }
+    .cert-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      color: #ff4b72;
+    }
+    .photo-display {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 10px 0;
     }
   </style>
 </head>
-
 <body>
-
-  <!-- Overlay Screen (Receiver Open Karega Tab Dikkhega) -->
-  <div id="welcomeScreen" class="welcome-overlay hidden">
-    <div class="welcome-card">
-      <h1 class="sparkle-text">A Little Surprise For You ✨</h1>
-      <p>Tap the heart to unwrap 🎁</p>
-      <div class="heart-container" onclick="openSurprise()">
-        <div class="glowing-heart">💖</div>
-      </div>
-    </div>
-  </div>
 
   <div class="container">
 
-    <!-- STEP 1: Names -->
-    <div class="card" id="page1">
-      <div style="font-size:40px;">💌</div>
-      <div style="font-size:12px; color:#d86c76; letter-spacing:1px; margin-top:5px;">A LITTLE SURPRISE</div>
-      <h1>Hey You! ♡</h1>
-      <p>Create a little memory-filled surprise for someone special.</p>
-
-      <div class="input-group">
-        <label>Who is this surprise for? 💕</label>
-        <input type="text" id="receiverName" placeholder="Enter their name">
-      </div>
-
-      <div class="input-group">
-        <label>Your name ✨</label>
-        <input type="text" id="senderName" placeholder="Enter your name">
-      </div>
-
-      <button class="btn" onclick="goPage(2)">Next ✨</button>
+    <!-- WELCOME SCREEN FOR RECEIVER -->
+    <div id="welcomeScreen" class="card hidden">
+      <h1>A Special Surprise Awaits! ✨</h1>
+      <p>Tap the heart below to open your gift!</p>
+      <button class="heart-btn" onclick="openSurprise()">❤️</button>
     </div>
 
-    <!-- STEP 2: Main Photo -->
-    <div class="card hidden" id="page2">
-      <h2>Add Photos 📸</h2>
-      <p>Choose the main picture you want to include.</p>
-
-      <div class="input-group">
-        <label>Main photo 🖼️</label>
-        <input type="file" id="mainPhoto" accept="image/*" onchange="handleMainPhoto(this)">
-      </div>
-
-      <button class="btn" onclick="goPage(3)">Next 💕</button>
+    <!-- STEP 1: WELCOME FOR SENDER -->
+    <div id="page1" class="card">
+      <h1>Hey There! 🌸</h1>
+      <p>Someone wants to send you a cute little surprise. Ready?</p>
+      <button onclick="goPage(2)">Let's Go! ✨</button>
     </div>
 
-    <!-- STEP 3: Message -->
-    <div class="card hidden" id="page3">
-      <h2>Write Something 💭</h2>
-      <p>Write a message that you want them to read.</p>
-
-      <div class="input-group">
-        <textarea id="message" placeholder="Write your heart out..."></textarea>
-      </div>
-
-      <button class="btn" onclick="goPage(4)">Next ✨</button>
+    <!-- STEP 2: NAMES -->
+    <div id="page2" class="card hidden">
+      <h1>Whose Surprise is This? 📝</h1>
+      <input type="text" id="senderName" placeholder="Your Name (Sender)">
+      <input type="text" id="receiverName" placeholder="Special Someone's Name (Receiver)">
+      <button onclick="goPage(3)">Next Step ➔</button>
     </div>
 
-    <!-- STEP 4: Funny Photo -->
-    <div class="card hidden" id="page4">
-      <h2>Cute & Funny Memories 😂</h2>
-      <p>Add a funny/cute memory photo.</p>
-
-      <div id="senderFunnyInput" class="input-group">
-        <label>Cute / Funny Photo 📸</label>
-        <input type="file" id="funnyPhoto" accept="image/*" onchange="handleFunnyPhoto(this)">
-      </div>
-
-      <img id="funnyPhotoImg" class="preview-img hidden" src="" alt="Funny Photo">
-
-      <button id="funnyNextBtn" class="btn" onclick="goPage(5)">Next 🎵</button>
+    <!-- STEP 3: MAIN & FUNNY PHOTO UPLOAD (SENDER SIDE) -->
+    <div id="page3" class="card hidden">
+      <h1>Upload Photos 📸</h1>
+      <p>Upload a cute photo & a funny photo!</p>
+      <label style="font-weight:600; display:block; margin-top:10px;">Cute Main Photo:</label>
+      <input type="file" accept="image/*" onchange="handleMainPhoto(this)">
+      
+      <label style="font-weight:600; display:block; margin-top:10px;">Funny Photo:</label>
+      <input type="file" accept="image/*" onchange="handleFunnyPhoto(this)">
+      <button onclick="goPage(4)">Next Step ➔</button>
     </div>
 
-    <!-- STEP 5: Our Song -->
-    <div class="card hidden" id="page5">
-      <h2>Our Song 🎵</h2>
-      <p>Add a song for the surprise.</p>
-
-      <div id="senderSongInput" class="input-group">
-        <label>Choose song (MP3 / Audio) 🎶</label>
-        <input type="file" id="songInput" accept="audio/*" onchange="handleSongInput(this)">
-      </div>
-
-      <!-- Certificate Display Page (Receiver View) -->
-      <div id="certificateContainer" class="cert-frame margin-top:10px;">
-        <div style="font-size:20px; color:#d86c76; font-family:'Caveat'; font-weight:bold;">Certificate 🏆</div>
-        <h2>Certificate of Being My Favourite Person</h2>
-        <p style="margin:5px 0;">This certificate is proudly presented to</p>
-        <h1 id="certReceiverName" style="margin:5px 0; color:#e5838d;">Someone</h1>
-        <img id="certMainPhoto" class="avatar-circle" src="https://via.placeholder.com/150" alt="Main Photo">
-        <div class="badge-list">
-          <div>✿ Official favourite person</div>
-          <div>✿ Professional smile maker</div>
-          <div>✿ Certified memory collector</div>
-          <div>✿ Valid forever ♡</div>
-        </div>
-      </div>
-
-      <button id="certNextBtn" class="btn" onclick="goPage(6)">Continue 💌</button>
+    <!-- 1st SHOW: FUNNY PHOTO PAGE -->
+    <div id="page4" class="card hidden">
+      <h1>Bonus Laugh! 🤪</h1>
+      <p id="funnySubtext">Here's a funny memory!</p>
+      <img id="funnyPhotoImg" class="photo-display hidden" src="" alt="Funny Photo">
+      <button onclick="goPage(5)">Next ➔</button>
     </div>
 
-    <!-- STEP 6: Final Note / Share Link Page -->
-    <div class="card hidden" id="page6">
-      <div style="font-size:12px; color:#d86c76; letter-spacing:1px;">ONE LAST THING...</div>
-      <h1>For You 💌</h1>
+    <!-- LAST 2nd SHOW: CERTIFICATE PAGE -->
+    <div id="page5" class="card hidden">
+      <h1>Official Cuteness Certificate 📜</h1>
+      <div class="cert-box">
+        <div class="cert-title">Certified Cute Human</div>
+        <p>This certifies that <strong id="certReceiverName">Someone</strong> is officially 100% cute!</p>
+        <img id="certMainPhoto" class="photo-display" src="" alt="Main Photo">
+      </div>
+      <button onclick="goPage(6)">Next ➔</button>
+    </div>
 
-      <img id="finalMainPhoto" class="preview-img hidden" src="" alt="Main Photo">
+    <!-- LAST SHOW: NOTES WITH PHOTO PAGE -->
+    <div id="page6" class="card hidden">
+      <h1>A Sweet Note For You 💌</h1>
+      <h2 id="finalNames" style="font-family:'Caveat', cursive; font-size: 2rem; color:#ff4b72; margin:10px 0;"></h2>
+      
+      <!-- Photo with Note -->
+      <img id="notePhotoImg" class="photo-display hidden" src="" alt="Note Photo">
 
-      <p id="finalNote" style="font-size:16px; font-weight:600; color:#4b383b; margin:15px 0; white-space:pre-wrap;"></p>
+      <div id="senderNoteInput">
+        <p style="font-weight:600; color:#4b383b; margin:15px 0 5px 0;">Write a Sweet Message 💌</p>
+        <textarea id="message" rows="3" placeholder="Write your heartfelt note here..."></textarea>
+      </div>
 
-      <p style="font-size:12px; color:#a08085;">Made with lots of memories ♡</p>
-      <h3 id="finalNames" style="color:#d86c76;">Sender ♡ Receiver</h3>
+      <p id="finalNote" class="hidden" style="white-space:pre-wrap; font-style:italic; font-size:1.05rem; color:#555; background:#fff0f3; padding:15px; border-radius:12px; margin:10px 0;"></p>
 
-      <!-- Sender Only: Link Generation Section -->
       <div id="senderLinkSection">
-        <button id="generateBtn" class="btn" onclick="generateShareableLink()">Generate Shareable Link 🔗</button>
-
-        <div id="linkArea" class="hidden" style="margin-top:15px;">
-          <input type="text" id="shareUrl" readonly style="text-align:center; margin-bottom:10px;">
-          <button class="btn" onclick="copyLink()">Copy Link 📋</button>
+        <button id="generateBtn" onclick="generateShareableLink()">Generate Shareable Link 🔗</button>
+        <div id="linkArea" class="hidden" style="margin-top: 15px;">
+          <input type="text" id="shareUrl" readonly>
+          <button onclick="copyLink()">Copy Link 📋</button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <script>
-    // Supabase Setup
-    const SUPABASE_URL = "https://mhhfghhhptazndllkefk.supabase.co"; // Aapka Supabase URL
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaGZnaGhocHRhem5kbGxrZWZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMTgxOTAsImV4cCI6MjA1Njg5NDE5MH0.O30qjUv8e17U7y9n_sI9zXU1W-iN0vC0JgV6p7D0t4g"; // Aapki Supabase Key
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script>
+  // Supabase Setup
+  const SUPABASE_URL = "https://mhhfghhhptazndllkefk.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaGZnaGhocHRhem5kbGxrZWZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMTgxOTAsImV4cCI6MjA1Njg5NDE5MH0.O30qjUv8e17U7y9n_sI9zXU1W-iN0vC0JgV6p7D0t4g";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let mainPhotoBase64 = "";
-    let funnyPhotoBase64 = "";
-    let songBase64 = "";
-    let bgAudioInstance = null;
+  // FIXED PERMANENT AUDIO FILE
+  const PERMANENT_SONG_URL = "song.m4a";
 
-    // Page Switching Function
-    function goPage(pageNum) {
-      for (let i = 1; i <= 6; i++) {
-        const page = document.getElementById("page" + i);
-        if (page) page.classList.add("hidden");
-      }
-      const targetPage = document.getElementById("page" + pageNum);
-      if (targetPage) targetPage.classList.remove("hidden");
+  let mainPhotoBase64 = "";
+  let funnyPhotoBase64 = "";
+  let bgAudioInstance = new Audio(PERMANENT_SONG_URL);
 
-      // Updates for Certificate & Final Note
-      if (pageNum === 5 || pageNum === 6) {
-        updateDisplays();
-      }
+  function compressImage(file, callback) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const max_size = 600;
+
+        if (width > height) {
+          if (width > max_size) {
+            height *= max_size / width;
+            width = max_size;
+          }
+        } else {
+          if (height > max_size) {
+            width *= max_size / height;
+            height = max_size;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        callback(canvas.toDataURL('image/jpeg', 0.6));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function goPage(pageNum) {
+    for (let i = 1; i <= 6; i++) {
+      const page = document.getElementById("page" + i);
+      if (page) page.classList.add("hidden");
+    }
+    const targetPage = document.getElementById("page" + pageNum);
+    if (targetPage) targetPage.classList.remove("hidden");
+
+    if (pageNum >= 4) {
+      updateDisplays();
+    }
+  }
+
+  function handleMainPhoto(input) {
+    if (input.files && input.files[0]) {
+      compressImage(input.files[0], function(compressedBase64) {
+        mainPhotoBase64 = compressedBase64;
+      });
+    }
+  }
+
+  function handleFunnyPhoto(input) {
+    if (input.files && input.files[0]) {
+      compressImage(input.files[0], function(compressedBase64) {
+        funnyPhotoBase64 = compressedBase64;
+      });
+    }
+  }
+
+  function updateDisplays() {
+    const rName = document.getElementById("receiverName").value.trim() || "Someone";
+    const sName = document.getElementById("senderName").value.trim() || "Someone";
+    const msg = document.getElementById("message").value.trim() || "";
+
+    document.getElementById("certReceiverName").innerText = rName;
+    document.getElementById("finalNames").innerText = `${sName} ♡ ${rName}`;
+    document.getElementById("finalNote").innerText = msg;
+
+    if (mainPhotoBase64) {
+      document.getElementById("certMainPhoto").src = mainPhotoBase64;
+      document.getElementById("notePhotoImg").src = mainPhotoBase64;
+      document.getElementById("notePhotoImg").classList.remove("hidden");
     }
 
-    function handleMainPhoto(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          mainPhotoBase64 = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
+    if (funnyPhotoBase64) {
+      document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
+      document.getElementById("funnyPhotoImg").classList.remove("hidden");
+    }
+  }
+
+  function openSurprise() {
+    const welcome = document.getElementById("welcomeScreen");
+    welcome.style.transition = "opacity 0.6s ease";
+    welcome.style.opacity = "0";
+    setTimeout(() => {
+      welcome.classList.add("hidden");
+    }, 600);
+
+    if (bgAudioInstance) {
+      bgAudioInstance.loop = true;
+      bgAudioInstance.play().catch(err => console.log("Audio play error:", err));
     }
 
-    function handleFunnyPhoto(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          funnyPhotoBase64 = e.target.result;
-          document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
-          document.getElementById("funnyPhotoImg").classList.remove("hidden");
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
+    // Opens 1st screen: Funny photo
+    goPage(4);
+  }
+
+  async function generateShareableLink() {
+    const btn = document.getElementById("generateBtn");
+    btn.innerText = "Generating Link... ⏳";
+    btn.disabled = true;
+
+    const sName = document.getElementById("senderName").value.trim();
+    const rName = document.getElementById("receiverName").value.trim();
+    const msg = document.getElementById("message").value.trim();
+
+    if (!sName || !rName) {
+      alert("Please enter names before generating the link!");
+      btn.innerText = "Generate Shareable Link 🔗";
+      btn.disabled = false;
+      return;
     }
 
-    function handleSongInput(input) {
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          songBase64 = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
+    try {
+      const { data, error } = await supabaseClient
+        .from('surprises')
+        .insert([
+          {
+            sender_name: sName,
+            receiver_name: rName,
+            message: msg,
+            main_photo: mainPhotoBase64 || null,
+            funny_photo: funnyPhotoBase64 || null,
+            audio_url: PERMANENT_SONG_URL
+          }
+        ])
+        .select();
+
+      if (error) throw error;
+
+      if (data && data[0]) {
+        const generatedId = data[0].id;
+        const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
+
+        document.getElementById("shareUrl").value = fullUrl;
+        document.getElementById("linkArea").classList.remove("hidden");
+        btn.innerText = "Link Generated! ✨";
       }
+    } catch (err) {
+      console.error(err);
+      alert("Error: " + err.message);
+      btn.innerText = "Generate Shareable Link 🔗";
+      btn.disabled = false;
     }
+  }
 
-    function updateDisplays() {
-      const rName = document.getElementById("receiverName").value.trim() || "Someone";
-      const sName = document.getElementById("senderName").value.trim() || "Someone";
-      const msg = document.getElementById("message").value.trim() || "";
+  function copyLink() {
+    const copyText = document.getElementById("shareUrl");
+    copyText.select();
+    navigator.clipboard.writeText(copyText.value);
+    alert("Copied link to clipboard! 🎁 Send it to your special someone!");
+  }
 
-      document.getElementById("certReceiverName").innerText = rName;
-      document.getElementById("finalNames").innerText = `${sName} ♡ ${rName}`;
-      document.getElementById("finalNote").innerText = msg;
+  window.addEventListener("DOMContentLoaded", async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
 
-      if (mainPhotoBase64) {
-        document.getElementById("certMainPhoto").src = mainPhotoBase64;
-        document.getElementById("finalMainPhoto").src = mainPhotoBase64;
-        document.getElementById("finalMainPhoto").classList.remove("hidden");
-      }
-    }
-
-    // Tap Heart Handler (Receiver Interaction)
-    function openSurprise() {
-      const welcome = document.getElementById("welcomeScreen");
-      welcome.style.transition = "opacity 0.6s ease";
-      welcome.style.opacity = "0";
-      setTimeout(() => {
-        welcome.classList.add("hidden");
-      }, 600);
-
-      // Play Background Song Continuous
-      if (bgAudioInstance) {
-        bgAudioInstance.loop = true;
-        bgAudioInstance.play().catch(err => console.log("Audio autoplay error:", err));
-      }
-
-      // Receiver Step 1: Open Funny Photo First
-      goPage(4);
-    }
-
-    // Generate Shareable Link (Sender)
-    async function generateShareableLink() {
-      const btn = document.getElementById("generateBtn");
-      btn.innerText = "Generating Link... ⏳";
-      btn.disabled = true;
-
-      const sName = document.getElementById("senderName").value.trim();
-      const rName = document.getElementById("receiverName").value.trim();
-      const msg = document.getElementById("message").value.trim();
+    if (id) {
+      document.getElementById("welcomeScreen").classList.remove("hidden");
+      document.getElementById("senderNoteInput").classList.add("hidden");
+      document.getElementById("senderLinkSection").classList.add("hidden");
+      document.getElementById("finalNote").classList.remove("hidden");
 
       try {
         const { data, error } = await supabaseClient
           .from('surprises')
-          .insert([
-            {
-              sender_name: sName,
-              receiver_name: rName,
-              message: msg,
-              main_photo: mainPhotoBase64,
-              funny_photo: funnyPhotoBase64,
-              audio_url: songBase64
-            }
-          ])
-          .select();
+          .select('*')
+          .eq('id', id)
+          .single();
 
         if (error) throw error;
 
-        if (data && data[0]) {
-          const generatedId = data[0].id;
-          const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
+        if (data) {
+          document.getElementById("receiverName").value = data.receiver_name || "";
+          document.getElementById("senderName").value = data.sender_name || "";
+          document.getElementById("message").value = data.message || "";
 
-          document.getElementById("shareUrl").value = fullUrl;
-          document.getElementById("linkArea").classList.remove("hidden");
-          btn.innerText = "Link Generated! ✨";
-        }
-      } catch (err) {
-        alert("Error creating link: " + err.message);
-        btn.innerText = "Generate Shareable Link 🔗";
-        btn.disabled = false;
-      }
-    }
-
-    function copyLink() {
-      const copyText = document.getElementById("shareUrl");
-      copyText.select();
-      navigator.clipboard.writeText(copyText.value);
-      alert("Copied link to clipboard! 🎁 Send it to your special someone!");
-    }
-
-    // URL Parameter Checking for Receiver Mode
-    window.addEventListener("DOMContentLoaded", async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get("id");
-
-      if (id) {
-        // Show Welcome Screen Overlay for Receiver
-        document.getElementById("welcomeScreen").classList.remove("hidden");
-
-        // Hide Sender Form Elements
-        document.getElementById("senderFunnyInput").classList.add("hidden");
-        document.getElementById("senderSongInput").classList.add("hidden");
-        document.getElementById("senderLinkSection").classList.add("hidden");
-
-        // Fetch Data from Supabase
-        try {
-          const { data, error } = await supabaseClient
-            .from('surprises')
-            .select('*')
-            .eq('id', id)
-            .single();
-
-          if (error) throw error;
-
-          if (data) {
-            document.getElementById("receiverName").value = data.receiver_name || "";
-            document.getElementById("senderName").value = data.sender_name || "";
-            document.getElementById("message").value = data.message || "";
-
-            if (data.main_photo) {
-              mainPhotoBase64 = data.main_photo;
-            }
-
-            if (data.funny_photo) {
-              funnyPhotoBase64 = data.funny_photo;
-              document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
-              document.getElementById("funnyPhotoImg").classList.remove("hidden");
-            }
-
-            if (data.audio_url) {
-              bgAudioInstance = new Audio(data.audio_url);
-            }
-
-            updateDisplays();
+          if (data.main_photo) {
+            mainPhotoBase64 = data.main_photo;
           }
-        } catch (e) {
-          console.error("Error fetching surprise:", e);
+
+          if (data.funny_photo) {
+            funnyPhotoBase64 = data.funny_photo;
+          }
+
+          if (data.audio_url) {
+            bgAudioInstance = new Audio(data.audio_url);
+          } else {
+            bgAudioInstance = new Audio(PERMANENT_SONG_URL);
+          }
+
+          updateDisplays();
         }
-      } else {
-        // Sender Mode (Start from Step 1)
-        goPage(1);
+      } catch (e) {
+        console.error("Error fetching surprise:", e);
       }
-    });
-  </script>
+    } else {
+      goPage(1);
+    }
+  });
+</script>
+
 </body>
 </html>
