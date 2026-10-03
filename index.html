@@ -636,7 +636,18 @@ function prepareFinalPage(){
   }
 }
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://tmiglekwipvekeretmhg.supabase.co";
+const SUPABASE_KEY = "sb_publishable_O1fL_PGsG3K7H_zcANUtig_4uuBjB9C";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 </script>
+
 
 </body>
 </html>
