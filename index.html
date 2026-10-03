@@ -142,7 +142,7 @@
       <button onclick="goPage(3)">Next Step ➔</button>
     </div>
 
-    <!-- STEP 3: MAIN & FUNNY PHOTO UPLOAD (SENDER SIDE) -->
+    <!-- STEP 3: MAIN & FUNNY PHOTO UPLOAD -->
     <div id="page3" class="card hidden">
       <h1>Upload Photos 📸</h1>
       <p>Upload a cute photo & a funny photo!</p>
@@ -168,7 +168,7 @@
       <div class="cert-box">
         <div class="cert-title">Certified Cute Human</div>
         <p>This certifies that <strong id="certReceiverName">Someone</strong> is officially 100% cute!</p>
-        <img id="certMainPhoto" class="photo-display" src="" alt="Main Photo">
+        <img id="certMainPhoto" class="photo-display hidden" src="" alt="Main Photo">
       </div>
       <button onclick="goPage(6)">Next ➔</button>
     </div>
@@ -178,7 +178,6 @@
       <h1>A Sweet Note For You 💌</h1>
       <h2 id="finalNames" style="font-family:'Caveat', cursive; font-size: 2rem; color:#ff4b72; margin:10px 0;"></h2>
       
-      <!-- Photo with Note -->
       <img id="notePhotoImg" class="photo-display hidden" src="" alt="Note Photo">
 
       <div id="senderNoteInput">
@@ -200,27 +199,31 @@
   </div>
 
 <script>
-  // Supabase Setup
-  const SUPABASE_URL = "https://mhhfghhhptazndllkefk.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaGZnaGhocHRhem5kbGxrZWZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMTgxOTAsImV4cCI6MjA1Njg5NDE5MH0.O30qjUv8e17U7y9n_sI9zXU1W-iN0vC0JgV6p7D0t4g";
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var SUPABASE_URL = "https://mhhfghhhptazndllkefk.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaGZnaGhocHRhem5kbGxrZWZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMTgxOTAsImV4cCI6MjA1Njg5NDE5MH0.O30qjUv8e17U7y9n_sI9zXU1W-iN0vC0JgV6p7D0t4g";
+  var dbClient = null;
 
-  // FIXED PERMANENT AUDIO FILE
-  const PERMANENT_SONG_URL = "song.m4a";
+  function getClient() {
+    if (!dbClient && window.supabase) {
+      dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return dbClient;
+  }
 
-  let mainPhotoBase64 = "";
-  let funnyPhotoBase64 = "";
-  let bgAudioInstance = new Audio(PERMANENT_SONG_URL);
+  var PERMANENT_SONG_URL = "song.m4a";
+  var mainPhotoBase64 = "";
+  var funnyPhotoBase64 = "";
+  var bgAudioInstance = new Audio(PERMANENT_SONG_URL);
 
   function compressImage(file, callback) {
-    const reader = new FileReader();
+    var reader = new FileReader();
     reader.onload = function(e) {
-      const img = new Image();
+      var img = new Image();
       img.onload = function() {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
-        const max_size = 600;
+        var canvas = document.createElement('canvas');
+        var width = img.width;
+        var height = img.height;
+        var max_size = 600;
 
         if (width > height) {
           if (width > max_size) {
@@ -235,7 +238,7 @@
         }
         canvas.width = width;
         canvas.height = height;
-        const ctx = canvas.getContext('2d');
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
         callback(canvas.toDataURL('image/jpeg', 0.6));
       };
@@ -245,11 +248,11 @@
   }
 
   function goPage(pageNum) {
-    for (let i = 1; i <= 6; i++) {
-      const page = document.getElementById("page" + i);
+    for (var i = 1; i <= 6; i++) {
+      var page = document.getElementById("page" + i);
       if (page) page.classList.add("hidden");
     }
-    const targetPage = document.getElementById("page" + pageNum);
+    var targetPage = document.getElementById("page" + pageNum);
     if (targetPage) targetPage.classList.remove("hidden");
 
     if (pageNum >= 4) {
@@ -261,6 +264,7 @@
     if (input.files && input.files[0]) {
       compressImage(input.files[0], function(compressedBase64) {
         mainPhotoBase64 = compressedBase64;
+        updateDisplays();
       });
     }
   }
@@ -269,56 +273,60 @@
     if (input.files && input.files[0]) {
       compressImage(input.files[0], function(compressedBase64) {
         funnyPhotoBase64 = compressedBase64;
+        updateDisplays();
       });
     }
   }
 
   function updateDisplays() {
-    const rName = document.getElementById("receiverName").value.trim() || "Someone";
-    const sName = document.getElementById("senderName").value.trim() || "Someone";
-    const msg = document.getElementById("message").value.trim() || "";
+    var rName = document.getElementById("receiverName").value.trim() || "Someone";
+    var sName = document.getElementById("senderName").value.trim() || "Someone";
+    var msg = document.getElementById("message").value.trim() || "";
 
     document.getElementById("certReceiverName").innerText = rName;
     document.getElementById("finalNames").innerText = `${sName} ♡ ${rName}`;
     document.getElementById("finalNote").innerText = msg;
 
     if (mainPhotoBase64) {
-      document.getElementById("certMainPhoto").src = mainPhotoBase64;
-      document.getElementById("notePhotoImg").src = mainPhotoBase64;
-      document.getElementById("notePhotoImg").classList.remove("hidden");
+      var certImg = document.getElementById("certMainPhoto");
+      var noteImg = document.getElementById("notePhotoImg");
+      certImg.src = mainPhotoBase64;
+      certImg.classList.remove("hidden");
+      noteImg.src = mainPhotoBase64;
+      noteImg.classList.remove("hidden");
     }
 
     if (funnyPhotoBase64) {
-      document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
-      document.getElementById("funnyPhotoImg").classList.remove("hidden");
+      var funnyImg = document.getElementById("funnyPhotoImg");
+      funnyImg.src = funnyPhotoBase64;
+      funnyImg.classList.remove("hidden");
     }
   }
 
   function openSurprise() {
-    const welcome = document.getElementById("welcomeScreen");
+    var welcome = document.getElementById("welcomeScreen");
     welcome.style.transition = "opacity 0.6s ease";
     welcome.style.opacity = "0";
-    setTimeout(() => {
+    setTimeout(function() {
       welcome.classList.add("hidden");
     }, 600);
 
     if (bgAudioInstance) {
       bgAudioInstance.loop = true;
-      bgAudioInstance.play().catch(err => console.log("Audio play error:", err));
+      bgAudioInstance.play().catch(function(err) { console.log("Audio play error:", err); });
     }
 
-    // Opens 1st screen: Funny photo
     goPage(4);
   }
 
   async function generateShareableLink() {
-    const btn = document.getElementById("generateBtn");
+    var btn = document.getElementById("generateBtn");
     btn.innerText = "Generating Link... ⏳";
     btn.disabled = true;
 
-    const sName = document.getElementById("senderName").value.trim();
-    const rName = document.getElementById("receiverName").value.trim();
-    const msg = document.getElementById("message").value.trim();
+    var sName = document.getElementById("senderName").value.trim();
+    var rName = document.getElementById("receiverName").value.trim();
+    var msg = document.getElementById("message").value.trim();
 
     if (!sName || !rName) {
       alert("Please enter names before generating the link!");
@@ -328,7 +336,10 @@
     }
 
     try {
-      const { data, error } = await supabaseClient
+      var client = getClient();
+      if (!client) throw new Error("Database client not ready. Please refresh.");
+
+      var res = await client
         .from('surprises')
         .insert([
           {
@@ -342,11 +353,11 @@
         ])
         .select();
 
-      if (error) throw error;
+      if (res.error) throw res.error;
 
-      if (data && data[0]) {
-        const generatedId = data[0].id;
-        const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
+      if (res.data && res.data[0]) {
+        var generatedId = res.data[0].id;
+        var fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
 
         document.getElementById("shareUrl").value = fullUrl;
         document.getElementById("linkArea").classList.remove("hidden");
@@ -361,15 +372,15 @@
   }
 
   function copyLink() {
-    const copyText = document.getElementById("shareUrl");
+    var copyText = document.getElementById("shareUrl");
     copyText.select();
     navigator.clipboard.writeText(copyText.value);
     alert("Copied link to clipboard! 🎁 Send it to your special someone!");
   }
 
-  window.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+  window.addEventListener("DOMContentLoaded", async function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id");
 
     if (id) {
       document.getElementById("welcomeScreen").classList.remove("hidden");
@@ -378,34 +389,37 @@
       document.getElementById("finalNote").classList.remove("hidden");
 
       try {
-        const { data, error } = await supabaseClient
-          .from('surprises')
-          .select('*')
-          .eq('id', id)
-          .single();
+        var client = getClient();
+        if (client) {
+          var res = await client
+            .from('surprises')
+            .select('*')
+            .eq('id', id)
+            .single();
 
-        if (error) throw error;
+          if (res.error) throw res.error;
 
-        if (data) {
-          document.getElementById("receiverName").value = data.receiver_name || "";
-          document.getElementById("senderName").value = data.sender_name || "";
-          document.getElementById("message").value = data.message || "";
+          if (res.data) {
+            document.getElementById("receiverName").value = res.data.receiver_name || "";
+            document.getElementById("senderName").value = res.data.sender_name || "";
+            document.getElementById("message").value = res.data.message || "";
 
-          if (data.main_photo) {
-            mainPhotoBase64 = data.main_photo;
+            if (res.data.main_photo) {
+              mainPhotoBase64 = res.data.main_photo;
+            }
+
+            if (res.data.funny_photo) {
+              funnyPhotoBase64 = res.data.funny_photo;
+            }
+
+            if (res.data.audio_url) {
+              bgAudioInstance = new Audio(res.data.audio_url);
+            } else {
+              bgAudioInstance = new Audio(PERMANENT_SONG_URL);
+            }
+
+            updateDisplays();
           }
-
-          if (data.funny_photo) {
-            funnyPhotoBase64 = data.funny_photo;
-          }
-
-          if (data.audio_url) {
-            bgAudioInstance = new Audio(data.audio_url);
-          } else {
-            bgAudioInstance = new Audio(PERMANENT_SONG_URL);
-          }
-
-          updateDisplays();
         }
       } catch (e) {
         console.error("Error fetching surprise:", e);
