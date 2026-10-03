@@ -1,640 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Surprise 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<title>A Little Surprise 💌</title>
+    body {
+      margin: 0;
+      padding: 20px 15px;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: #fff5f6;
+      color: #4b383b;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    /* Welcome Overlay Screen */
+    .welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      text-align: center;
+    }
 
-<style>
-  .welcome-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-}
+    .welcome-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 35px 25px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 88%;
+      width: 360px;
+    }
 
-.welcome-card {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px 20px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  max-width: 85%;
-}
+    .sparkle-text {
+      color: #ff4b2b;
+      font-size: 24px;
+      font-family: 'Caveat', cursive;
+      margin-bottom: 10px;
+    }
 
-.sparkle-text {
-  color: #ff4b2b;
-  font-size: 22px;
-  margin-bottom: 10px;
-}
+    .heart-container {
+      margin-top: 25px;
+      cursor: pointer;
+    }
 
-.heart-container {
-  margin-top: 25px;
-  cursor: pointer;
-}
+    .glowing-heart {
+      font-size: 75px;
+      animation: pulseGlow 1.5s infinite ease-in-out;
+      display: inline-block;
+    }
 
-.glowing-heart {
-  font-size: 70px;
-  animation: pulseGlow 1.5s infinite ease-in-out;
-  display: inline-block;
-}
+    @keyframes pulseGlow {
+      0% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
+      50% { transform: scale(1.25); text-shadow: 0 0 25px #ff416c, 0 0 40px #ff4b2b; }
+      100% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
+    }
 
-@keyframes pulseGlow {
-  0% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
-  50% { transform: scale(1.25); text-shadow: 0 0 25px #ff416c, 0 0 40px #ff4b2b; }
-  100% { transform: scale(1); text-shadow: 0 0 10px #ff4b2b; }
-}
+    .container {
+      width: 100%;
+      max-width: 430px;
+      margin: auto;
+    }
 
-*{
-  box-sizing:border-box;
-}
+    .card {
+      background: #fff;
+      border: 2px solid #f1cdd2;
+      border-radius: 25px;
+      padding: 25px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(180, 100, 110, 0.12);
+      text-align: center;
+    }
 
-body{
-  margin:0;
-  padding:20px 15px;
-  min-height:100vh;
-  font-family:'Poppins',sans-serif;
-  background:#fff5f6;
-  color:#4b383b;
-}
+    .hidden {
+      display: none !important;
+    }
 
-.container{
-  width:100%;
-  max-width:430px;
-  margin:auto;
-}
+    h1, h2, h3 {
+      font-family: 'Caveat', cursive;
+      margin: 10px 0;
+    }
 
-.card{
-  background:#fff;
-  border:2px solid #f1cdd2;
-  border-radius:25px;
-  padding:25px 18px;
-  margin-bottom:20px;
-  box-shadow:0 10px 25px rgba(180,100,110,.12);
-  text-align:center;
-}
+    h1 { font-size: 34px; color: #d86c76; }
+    h2 { font-size: 28px; color: #d86c76; }
 
-.hidden{
-  display:none;
-}
+    p { font-size: 14px; color: #665255; line-height: 1.5; }
 
-h1,h2,h3{
-  font-family:'Caveat',cursive;
-}
+    .input-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
 
-h1{
-  font-size:46px;
-  color:#d86c76;
-  margin:8px 0;
-}
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      color: #7a585c;
+    }
 
-h2{
-  font-size:36px;
-  color:#d86c76;
-  margin:8px 0;
-}
+    input[type="text"], textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e0c5c8;
+      border-radius: 12px;
+      background: #fffbfb;
+      font-size: 14px;
+      outline: none;
+    }
 
-.small{
-  font-size:11px;
-  letter-spacing:2px;
-  color:#a77b81;
-  text-transform:uppercase;
-}
+    textarea {
+      resize: vertical;
+      height: 90px;
+    }
 
-.heart{
-  font-size:45px;
-}
+    .btn {
+      background: #e5838d;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(229, 131, 141, 0.4);
+      margin-top: 15px;
+      width: 100%;
+    }
 
-p{
-  font-size:13px;
-  line-height:1.7;
-}
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
 
-.input-group{
-  text-align:left;
-  margin:15px 0;
-}
+    .preview-img {
+      max-width: 100%;
+      max-height: 220px;
+      border-radius: 15px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+      margin: 15px auto;
+      display: block;
+      object-fit: cover;
+    }
 
-label{
-  display:block;
-  font-size:12px;
-  font-weight:600;
-  margin-bottom:6px;
-  color:#75575c;
-}
+    .cert-frame {
+      border: 3px double #e5838d;
+      padding: 15px;
+      border-radius: 20px;
+      background: #fffafb;
+    }
 
-input[type="text"],
-textarea,
-input[type="file"]{
-  width:100%;
-  padding:11px;
-  border:1px solid #edcfd3;
-  border-radius:12px;
-  background:#fffafa;
-  font-family:inherit;
-}
+    .avatar-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      margin: 10px auto;
+      display: block;
+    }
 
-textarea{
-  resize:vertical;
-}
+    .badge-list {
+      text-align: left;
+      font-size: 12px;
+      background: #fff;
+      padding: 10px 15px;
+      border-radius: 12px;
+      margin-top: 10px;
+      border: 1px solid #f3d0d4;
+    }
 
-.btn{
-  border:0;
-  background:#d86c76;
-  color:white;
-  padding:12px 25px;
-  border-radius:25px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:8px;
-  box-shadow:0 5px 15px rgba(216,108,118,.25);
-}
-
-.secondary{
-  background:#b5838d;
-}
-
-.preview-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:18px;
-}
-
-.preview-grid img{
-  width:100%;
-  height:145px;
-  object-fit:cover;
-  border-radius:10px;
-  border:5px solid white;
-  box-shadow:0 5px 12px rgba(0,0,0,.12);
-}
-
-.note{
-  background:repeating-linear-gradient(
-    #fff,
-    #fff 28px,
-    #f8e1e4 29px
-  );
-  padding:15px;
-  border-radius:15px;
-  font-family:'Caveat',cursive;
-  font-size:23px;
-  line-height:1.4;
-  text-align:left;
-  margin-top:15px;
-}
-
-.polaroid{
-  background:white;
-  padding:8px 8px 20px;
-  box-shadow:0 6px 15px rgba(0,0,0,.12);
-  border-radius:4px;
-}
-
-.polaroid img{
-  width:100%;
-  height:150px;
-  object-fit:cover;
-}
-
-.certificate{
-  background:#fffaf8;
-  border:4px double #e8b4b8;
-  padding:20px 15px;
-  border-radius:18px;
-  position:relative;
-}
-
-.cert-title{
-  font-family:'Caveat',cursive;
-  font-size:35px;
-  color:#d86c76;
-}
-
-.cert-name{
-  font-family:'Caveat',cursive;
-  font-size:38px;
-  color:#6b4343;
-  border-bottom:2px dashed #e8b4b8;
-  display:inline-block;
-  padding:0 12px;
-}
-
-.main-photo{
-  width:150px;
-  height:150px;
-  object-fit:cover;
-  border-radius:50%;
-  border:5px solid white;
-  box-shadow:0 6px 15px rgba(0,0,0,.15);
-  margin:15px auto;
-  display:block;
-}
-
-.duties{
-  text-align:left;
-  background:white;
-  border:1px solid #f0dddd;
-  border-radius:15px;
-  padding:12px;
-  font-size:12px;
-  line-height:1.7;
-  margin-top:15px;
-}
-
-.final-photo{
-  width:180px;
-  height:180px;
-  object-fit:cover;
-  border-radius:15px;
-  box-shadow:0 8px 18px rgba(0,0,0,.15);
-  margin:15px auto;
-  display:block;
-}
-
-.song-box{
-  background:#fff0f2;
-  border-radius:18px;
-  padding:15px;
-  margin-top:15px;
-}
-
-.song-title{
-  font-family:'Caveat',cursive;
-  font-size:27px;
-  color:#d86c76;
-}
-
-.share-box {
-  margin-top: 15px;
-  padding: 10px;
-  background: #fffafa;
-  border: 1px dashed #d86c76;
-  border-radius: 12px;
-  word-break: break-all;
-}
-</style>
+    .badge-list div {
+      margin: 5px 0;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="welcomeScreen" class="welcome-overlay">
-  <div class="welcome-card">
-    <h1 class="sparkle-text">A Little Surprise For You ✨</h1>
-    <p>Tap the heart to unwrap 🎁</p>
-    <div class="heart-container" onclick="openSurprise()">
-      <div class="glowing-heart">💖</div>
-    </div>
-  </div>
-</div>
 
-
-<div class="container">
-
-<!-- PAGE 1 -->
-<div class="card" id="page1">
-  <div class="heart">💌</div>
-  <div class="small">A little surprise</div>
-  <h1>Hey You! ♡</h1>
-  <p>Create a little memory-filled surprise for someone special.</p>
-
-  <div class="input-group">
-    <label>Who is this surprise for? 💕</label>
-    <input type="text" id="receiverName" placeholder="Enter their name">
-  </div>
-
-  <div class="input-group">
-    <label>Your name ✨</label>
-    <input type="text" id="senderName" placeholder="Enter your name">
-  </div>
-
-  <button class="btn" onclick="goPage(2)">Next ✨</button>
-</div>
-
-<!-- PAGE 2 -->
-<div class="card hidden" id="page2">
-  <div class="small">Step 2</div>
-  <h2>Add Photos 📸</h2>
-  <p>Choose the pictures you want to include.</p>
-
-  <div class="input-group">
-    <label>Main photo</label>
-    <input type="file" id="mainPhoto" accept="image/*">
-  </div>
-
-  <div class="input-group">
-    <label>Cute / funny photos</label>
-    <input type="file" id="memoryPhotos" accept="image/*" multiple>
-  </div>
-
-  <button class="btn" onclick="goPage(3)">Next 💕</button>
-</div>
-
-<!-- PAGE 3 -->
-<div class="card hidden" id="page3">
-  <div class="small">Step 3</div>
-  <h2>Write Something 💭</h2>
-  <p>Write a message that you want them to read.</p>
-
-  <textarea id="message" rows="7" placeholder="Write your message here..."></textarea>
-
-  <button class="btn" onclick="goPage(4)">Next ✨</button>
-</div>
-
-<!-- PAGE 4 -->
-<div class="card hidden" id="page4">
-  <div class="small">Step 4</div>
-  <h2>Cute & Funny Memories 😂</h2>
-  <p>These pictures will appear in the memory section.</p>
-
-  <div id="memoryPreview" class="preview-grid"></div>
-
-  <button class="btn" onclick="goPage(5)">Next 🎵</button>
-</div>
-
-<!-- PAGE 5 -->
-<div class="card hidden" id="page5">
-  <div class="small">Step 5</div>
-  <h2>Our Song 🎵</h2>
-  <p>Add a song for the surprise.</p>
-
-  <div class="input-group">
-    <label>Choose song</label>
-    <input type="file" id="song" accept="audio/*">
-  </div>
-
-  <div class="song-box">
-    <div class="song-title">A little song for this moment ♡</div>
-    <audio id="songPlayer" controls style="width:100%;margin-top:10px;"></audio>
-  </div>
-
-  <button class="btn" onclick="goPage(6)">Next 🏆</button>
-</div>
-
-<!-- PAGE 6 -->
-<div class="card hidden" id="page6">
-  <div class="small">Step 6</div>
-  <h2>Certificate 🏆</h2>
-
-  <div class="certificate">
-    <div class="cert-title">Certificate of Being My Favourite Person</div>
-    <p>This certificate is proudly presented to</p>
-    <div class="cert-name" id="certificateName">Your Name</div>
-    <img id="certificatePhoto" class="main-photo" alt="Memory">
-    <div class="duties">
-      ✿ Official favourite person<br>
-      ✿ Professional smile maker<br>
-      ✿ Certified memory collector<br>
-      ✿ Valid forever ♡
+  <!-- Overlay Screen (Receiver Open Karega Tab Dikkhega) -->
+  <div id="welcomeScreen" class="welcome-overlay hidden">
+    <div class="welcome-card">
+      <h1 class="sparkle-text">A Little Surprise For You ✨</h1>
+      <p>Tap the heart to unwrap 🎁</p>
+      <div class="heart-container" onclick="openSurprise()">
+        <div class="glowing-heart">💖</div>
+      </div>
     </div>
   </div>
 
-  <button class="btn" onclick="goPage(7)">Continue 💌</button>
-</div>
+  <div class="container">
 
-<!-- PAGE 7 -->
-<div class="card hidden" id="page7">
-  <div class="small">One last thing...</div>
-  <h2>For You 💌</h2>
+    <!-- STEP 1: Names -->
+    <div class="card" id="page1">
+      <div style="font-size:40px;">💌</div>
+      <div style="font-size:12px; color:#d86c76; letter-spacing:1px; margin-top:5px;">A LITTLE SURPRISE</div>
+      <h1>Hey You! ♡</h1>
+      <p>Create a little memory-filled surprise for someone special.</p>
 
-  <img id="finalPhoto" class="final-photo" alt="Final memory">
-  <div class="note" id="finalNote"></div>
-  <p style="margin-top:20px;">Made with lots of memories ♡</p>
-  <div id="finalNames" style="font-family:'Caveat';font-size:26px;color:#d86c76;"></div>
+      <div class="input-group">
+        <label>Who is this surprise for? 💕</label>
+        <input type="text" id="receiverName" placeholder="Enter their name">
+      </div>
 
-  <button class="btn" id="generateBtn" onclick="generateShareLink()" style="margin-top:20px;">
-    Generate Shareable Link 🔗
-  </button>
+      <div class="input-group">
+        <label>Your name ✨</label>
+        <input type="text" id="senderName" placeholder="Enter your name">
+      </div>
 
-  <div id="linkArea" class="hidden share-box">
-    <p style="margin:0 0 5px;font-size:11px;font-weight:600;">Your Shareable Link:</p>
-    <input type="text" id="shareUrl" readonly style="margin-bottom:8px;font-size:11px;text-align:center;">
-    <button class="btn secondary" onclick="copyLink()">Copy Link 📋</button>
+      <button class="btn" onclick="goPage(2)">Next ✨</button>
+    </div>
+
+    <!-- STEP 2: Main Photo -->
+    <div class="card hidden" id="page2">
+      <h2>Add Photos 📸</h2>
+      <p>Choose the main picture you want to include.</p>
+
+      <div class="input-group">
+        <label>Main photo 🖼️</label>
+        <input type="file" id="mainPhoto" accept="image/*" onchange="handleMainPhoto(this)">
+      </div>
+
+      <button class="btn" onclick="goPage(3)">Next 💕</button>
+    </div>
+
+    <!-- STEP 3: Message -->
+    <div class="card hidden" id="page3">
+      <h2>Write Something 💭</h2>
+      <p>Write a message that you want them to read.</p>
+
+      <div class="input-group">
+        <textarea id="message" placeholder="Write your heart out..."></textarea>
+      </div>
+
+      <button class="btn" onclick="goPage(4)">Next ✨</button>
+    </div>
+
+    <!-- STEP 4: Funny Photo -->
+    <div class="card hidden" id="page4">
+      <h2>Cute & Funny Memories 😂</h2>
+      <p>Add a funny/cute memory photo.</p>
+
+      <div id="senderFunnyInput" class="input-group">
+        <label>Cute / Funny Photo 📸</label>
+        <input type="file" id="funnyPhoto" accept="image/*" onchange="handleFunnyPhoto(this)">
+      </div>
+
+      <img id="funnyPhotoImg" class="preview-img hidden" src="" alt="Funny Photo">
+
+      <button id="funnyNextBtn" class="btn" onclick="goPage(5)">Next 🎵</button>
+    </div>
+
+    <!-- STEP 5: Our Song -->
+    <div class="card hidden" id="page5">
+      <h2>Our Song 🎵</h2>
+      <p>Add a song for the surprise.</p>
+
+      <div id="senderSongInput" class="input-group">
+        <label>Choose song (MP3 / Audio) 🎶</label>
+        <input type="file" id="songInput" accept="audio/*" onchange="handleSongInput(this)">
+      </div>
+
+      <!-- Certificate Display Page (Receiver View) -->
+      <div id="certificateContainer" class="cert-frame margin-top:10px;">
+        <div style="font-size:20px; color:#d86c76; font-family:'Caveat'; font-weight:bold;">Certificate 🏆</div>
+        <h2>Certificate of Being My Favourite Person</h2>
+        <p style="margin:5px 0;">This certificate is proudly presented to</p>
+        <h1 id="certReceiverName" style="margin:5px 0; color:#e5838d;">Someone</h1>
+        <img id="certMainPhoto" class="avatar-circle" src="https://via.placeholder.com/150" alt="Main Photo">
+        <div class="badge-list">
+          <div>✿ Official favourite person</div>
+          <div>✿ Professional smile maker</div>
+          <div>✿ Certified memory collector</div>
+          <div>✿ Valid forever ♡</div>
+        </div>
+      </div>
+
+      <button id="certNextBtn" class="btn" onclick="goPage(6)">Continue 💌</button>
+    </div>
+
+    <!-- STEP 6: Final Note / Share Link Page -->
+    <div class="card hidden" id="page6">
+      <div style="font-size:12px; color:#d86c76; letter-spacing:1px;">ONE LAST THING...</div>
+      <h1>For You 💌</h1>
+
+      <img id="finalMainPhoto" class="preview-img hidden" src="" alt="Main Photo">
+
+      <p id="finalNote" style="font-size:16px; font-weight:600; color:#4b383b; margin:15px 0; white-space:pre-wrap;"></p>
+
+      <p style="font-size:12px; color:#a08085;">Made with lots of memories ♡</p>
+      <h3 id="finalNames" style="color:#d86c76;">Sender ♡ Receiver</h3>
+
+      <!-- Sender Only: Link Generation Section -->
+      <div id="senderLinkSection">
+        <button id="generateBtn" class="btn" onclick="generateShareableLink()">Generate Shareable Link 🔗</button>
+
+        <div id="linkArea" class="hidden" style="margin-top:15px;">
+          <input type="text" id="shareUrl" readonly style="text-align:center; margin-bottom:10px;">
+          <button class="btn" onclick="copyLink()">Copy Link 📋</button>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
 
-</div>
+  <script>
+    // Supabase Setup
+    const SUPABASE_URL = "https://mhhfghhhptazndllkefk.supabase.co"; // Aapka Supabase URL
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oaGZnaGhocHRhem5kbGxrZWZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzMTgxOTAsImV4cCI6MjA1Njg5NDE5MH0.O30qjUv8e17U7y9n_sI9zXU1W-iN0vC0JgV6p7D0t4g"; // Aapki Supabase Key
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    let mainPhotoBase64 = "";
+    let funnyPhotoBase64 = "";
+    let songBase64 = "";
+    let bgAudioInstance = null;
 
-<script>
-const SUPABASE_URL = "https://tmiglekwipvekeretmhg.supabase.co";
-const SUPABASE_KEY = "sb_publishable_O1fL_PGsG3K7H_zcANUtig_4uuBjB9C";
+    // Page Switching Function
+    function goPage(pageNum) {
+      for (let i = 1; i <= 6; i++) {
+        const page = document.getElementById("page" + i);
+        if (page) page.classList.add("hidden");
+      }
+      const targetPage = document.getElementById("page" + pageNum);
+      if (targetPage) targetPage.classList.remove("hidden");
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      // Updates for Certificate & Final Note
+      if (pageNum === 5 || pageNum === 6) {
+        updateDisplays();
+      }
+    }
 
-let receiverName = "";
-let senderName = "";
-let mainPhotoBase64 = "";
+    function handleMainPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          mainPhotoBase64 = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
 
-// Check if URL has surprise ID
-window.addEventListener('DOMContentLoaded', async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const surpriseId = urlParams.get('id');
+    function handleFunnyPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          funnyPhotoBase64 = e.target.result;
+          document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
+          document.getElementById("funnyPhotoImg").classList.remove("hidden");
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
 
-  if (surpriseId) {
-    // Load from Supabase directly to View Mode
-    const { data, error } = await supabaseClient
-      .from('surprises')
-      .select('*')
-      .eq('id', surpriseId)
-      .single();
+    function handleSongInput(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          songBase64 = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
 
-    if (data) {
-      receiverName = data.receiver_name || "";
-      senderName = data.sender_name || "";
-      
-      document.getElementById("certificateName").innerText = receiverName;
-      document.getElementById("finalNote").innerText = data.message || "";
-      document.getElementById("finalNames").innerText = senderName + " ♡ " + receiverName;
+    function updateDisplays() {
+      const rName = document.getElementById("receiverName").value.trim() || "Someone";
+      const sName = document.getElementById("senderName").value.trim() || "Someone";
+      const msg = document.getElementById("message").value.trim() || "";
 
-      if (data.main_photo) {
-        document.getElementById("certificatePhoto").src = data.main_photo;
-        document.getElementById("finalPhoto").src = data.main_photo;
+      document.getElementById("certReceiverName").innerText = rName;
+      document.getElementById("finalNames").innerText = `${sName} ♡ ${rName}`;
+      document.getElementById("finalNote").innerText = msg;
+
+      if (mainPhotoBase64) {
+        document.getElementById("certMainPhoto").src = mainPhotoBase64;
+        document.getElementById("finalMainPhoto").src = mainPhotoBase64;
+        document.getElementById("finalMainPhoto").classList.remove("hidden");
+      }
+    }
+
+    // Tap Heart Handler (Receiver Interaction)
+    function openSurprise() {
+      const welcome = document.getElementById("welcomeScreen");
+      welcome.style.transition = "opacity 0.6s ease";
+      welcome.style.opacity = "0";
+      setTimeout(() => {
+        welcome.classList.add("hidden");
+      }, 600);
+
+      // Play Background Song Continuous
+      if (bgAudioInstance) {
+        bgAudioInstance.loop = true;
+        bgAudioInstance.play().catch(err => console.log("Audio autoplay error:", err));
       }
 
-      // Hide all pages, show final page
-      for (let i = 1; i <= 7; i++) {
-        document.getElementById("page" + i).classList.add("hidden");
-      }
-      document.getElementById("page7").classList.remove("hidden");
-      document.getElementById("generateBtn").classList.add("hidden");
+      // Receiver Step 1: Open Funny Photo First
+      goPage(4);
     }
-  }
-});
 
-function goPage(number){
-  if(number === 2){
-    receiverName = document.getElementById("receiverName").value.trim();
-    senderName = document.getElementById("senderName").value.trim();
-    if(!receiverName || !senderName){
-      alert("Please enter both names 💕");
-      return;
-    }
-  }
+    // Generate Shareable Link (Sender)
+    async function generateShareableLink() {
+      const btn = document.getElementById("generateBtn");
+      btn.innerText = "Generating Link... ⏳";
+      btn.disabled = true;
 
-  if(number === 3){
-    const mainPhoto = document.getElementById("mainPhoto").files[0];
-    if(!mainPhoto){
-      alert("Please choose a main photo 📸");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      mainPhotoBase64 = e.target.result;
-    };
-    reader.readAsDataURL(mainPhoto);
-  }
+      const sName = document.getElementById("senderName").value.trim();
+      const rName = document.getElementById("receiverName").value.trim();
+      const msg = document.getElementById("message").value.trim();
 
-  if(number === 4){
-    const text = document.getElementById("message").value.trim();
-    if(!text){
-      alert("Please write a message 💌");
-      return;
-    }
-    createMemoryPreview();
-  }
+      try {
+        const { data, error } = await supabaseClient
+          .from('surprises')
+          .insert([
+            {
+              sender_name: sName,
+              receiver_name: rName,
+              message: msg,
+              main_photo: mainPhotoBase64,
+              funny_photo: funnyPhotoBase64,
+              audio_url: songBase64
+            }
+          ])
+          .select();
 
-  if(number === 5){
-    const song = document.getElementById("song").files[0];
-    if(song){
-      const player = document.getElementById("songPlayer");
-      player.src = URL.createObjectURL(song);
-    }
-  }
+        if (error) throw error;
 
-  if(number === 6){
-    prepareCertificate();
-  }
+        if (data && data[0]) {
+          const generatedId = data[0].id;
+          const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
 
-  if(number === 7){
-    prepareFinalPage();
-  }
-
-  for(let i=1;i<=7;i++){
-    document.getElementById("page"+i).classList.add("hidden");
-  }
-
-  document.getElementById("page"+number).classList.remove("hidden");
-  window.scrollTo({ top:0, behavior:"smooth" });
-}
-
-function createMemoryPreview(){
-  const container = document.getElementById("memoryPreview");
-  container.innerHTML = "";
-  const files = document.getElementById("memoryPhotos").files;
-
-  if(files.length === 0){
-    container.innerHTML = "<p>No memory photos added yet.</p>";
-    return;
-  }
-
-  Array.from(files).slice(0,6).forEach(file=>{
-    const reader = new FileReader();
-    reader.onload=function(e){
-      const div = document.createElement("div");
-      div.className="polaroid";
-      div.innerHTML = `<img src="${e.target.result}">`;
-      container.appendChild(div);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function prepareCertificate(){
-  document.getElementById("certificateName").innerText = receiverName;
-  const file = document.getElementById("mainPhoto").files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload=function(e){
-      document.getElementById("certificatePhoto").src=e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-function prepareFinalPage(){
-  const message = document.getElementById("message").value.trim();
-  document.getElementById("finalNote").innerText = message;
-  document.getElementById("finalNames").innerText = senderName + " ♡ " + receiverName;
-
-  const file = document.getElementById("mainPhoto").files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload=function(e){
-      document.getElementById("finalPhoto").src=e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-async function generateShareLink() {
-  const btn = document.getElementById("generateBtn");
-  btn.innerText = "Generating Link... ⏳";
-  btn.disabled = true;
-
-  const message = document.getElementById("message").value.trim();
-
-  try {
-    const { data, error } = await supabaseClient
-      .from('surprises')
-      .insert([
-        {
-          sender_name: senderName,
-          receiver_name: receiverName,
-          message: message,
-          main_photo: mainPhotoBase64
+          document.getElementById("shareUrl").value = fullUrl;
+          document.getElementById("linkArea").classList.remove("hidden");
+          btn.innerText = "Link Generated! ✨";
         }
-      ])
-      .select();
-
-    if (error) throw error;
-
-    if (data && data[0]) {
-      const generatedId = data[0].id;
-      const fullUrl = window.location.origin + window.location.pathname + "?id=" + generatedId;
-      
-      document.getElementById("shareUrl").value = fullUrl;
-      document.getElementById("linkArea").classList.remove("hidden");
-      btn.innerText = "Link Generated! ✨";
+      } catch (err) {
+        alert("Error creating link: " + err.message);
+        btn.innerText = "Generate Shareable Link 🔗";
+        btn.disabled = false;
+      }
     }
-  } catch (err) {
-    alert("Error creating link: " + err.message);
-    btn.innerText = "Generate Shareable Link 🔗";
-    btn.disabled = false;
-  }
-}
 
-function copyLink() {
-  const copyText = document.getElementById("shareUrl");
-  copyText.select();
-  navigator.clipboard.writeText(copyText.value);
-  alert("Copied link to clipboard! 📋 Send it to your special someone!");
-}
-  function openSurprise() {
-  const welcome = document.getElementById("welcomeScreen");
-  welcome.style.transition = "opacity 0.6s ease";
-  welcome.style.opacity = "0";
-  setTimeout(() => {
-    welcome.style.display = "none";
-  }, 600);
+    function copyLink() {
+      const copyText = document.getElementById("shareUrl");
+      copyText.select();
+      navigator.clipboard.writeText(copyText.value);
+      alert("Copied link to clipboard! 🎁 Send it to your special someone!");
+    }
 
-  if (window.bgAudio) {
-    window.bgAudio.play().catch(err => console.log("Audio play error:", err));
-  }
-}
+    // URL Parameter Checking for Receiver Mode
+    window.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
 
-</script>
+      if (id) {
+        // Show Welcome Screen Overlay for Receiver
+        document.getElementById("welcomeScreen").classList.remove("hidden");
 
+        // Hide Sender Form Elements
+        document.getElementById("senderFunnyInput").classList.add("hidden");
+        document.getElementById("senderSongInput").classList.add("hidden");
+        document.getElementById("senderLinkSection").classList.add("hidden");
+
+        // Fetch Data from Supabase
+        try {
+          const { data, error } = await supabaseClient
+            .from('surprises')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+          if (error) throw error;
+
+          if (data) {
+            document.getElementById("receiverName").value = data.receiver_name || "";
+            document.getElementById("senderName").value = data.sender_name || "";
+            document.getElementById("message").value = data.message || "";
+
+            if (data.main_photo) {
+              mainPhotoBase64 = data.main_photo;
+            }
+
+            if (data.funny_photo) {
+              funnyPhotoBase64 = data.funny_photo;
+              document.getElementById("funnyPhotoImg").src = funnyPhotoBase64;
+              document.getElementById("funnyPhotoImg").classList.remove("hidden");
+            }
+
+            if (data.audio_url) {
+              bgAudioInstance = new Audio(data.audio_url);
+            }
+
+            updateDisplays();
+          }
+        } catch (e) {
+          console.error("Error fetching surprise:", e);
+        }
+      } else {
+        // Sender Mode (Start from Step 1)
+        goPage(1);
+      }
+    });
+  </script>
 </body>
 </html>
