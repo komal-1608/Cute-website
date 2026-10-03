@@ -15,8 +15,8 @@
 
 body{
   margin:0;
-  min-height:100vh;
   padding:20px 15px;
+  min-height:100vh;
   font-family:'Poppins',sans-serif;
   background:#fff5f6;
   color:#4b383b;
@@ -29,7 +29,7 @@ body{
 }
 
 .card{
-  background:white;
+  background:#fff;
   border:2px solid #f1cdd2;
   border-radius:25px;
   padding:25px 18px;
@@ -38,19 +38,24 @@ body{
   text-align:center;
 }
 
+.hidden{
+  display:none;
+}
+
 h1,h2,h3{
   font-family:'Caveat',cursive;
 }
 
 h1{
-  font-size:45px;
+  font-size:46px;
   color:#d86c76;
   margin:8px 0;
 }
 
 h2{
-  font-size:34px;
+  font-size:36px;
   color:#d86c76;
+  margin:8px 0;
 }
 
 .small{
@@ -61,7 +66,7 @@ h2{
 }
 
 .heart{
-  font-size:42px;
+  font-size:45px;
 }
 
 p{
@@ -109,23 +114,8 @@ textarea{
   box-shadow:0 5px 15px rgba(216,108,118,.25);
 }
 
-.hidden{
-  display:none;
-}
-
-.note{
-  background:
-  repeating-linear-gradient(
-    #fff,
-    #fff 28px,
-    #f8e1e4 29px
-  );
-  padding:15px;
-  border-radius:15px;
-  font-family:'Caveat',cursive;
-  font-size:23px;
-  line-height:1.4;
-  text-align:left;
+.secondary{
+  background:#b5838d;
 }
 
 .preview-grid{
@@ -144,11 +134,100 @@ textarea{
   box-shadow:0 5px 12px rgba(0,0,0,.12);
 }
 
-.step-title{
+.note{
+  background:repeating-linear-gradient(
+    #fff,
+    #fff 28px,
+    #f8e1e4 29px
+  );
+  padding:15px;
+  border-radius:15px;
   font-family:'Caveat',cursive;
-  font-size:31px;
+  font-size:23px;
+  line-height:1.4;
+  text-align:left;
+  margin-top:15px;
+}
+
+.polaroid{
+  background:white;
+  padding:8px 8px 20px;
+  box-shadow:0 6px 15px rgba(0,0,0,.12);
+  border-radius:4px;
+}
+
+.polaroid img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+
+.certificate{
+  background:#fffaf8;
+  border:4px double #e8b4b8;
+  padding:20px 15px;
+  border-radius:18px;
+  position:relative;
+}
+
+.cert-title{
+  font-family:'Caveat',cursive;
+  font-size:35px;
   color:#d86c76;
-  margin-bottom:5px;
+}
+
+.cert-name{
+  font-family:'Caveat',cursive;
+  font-size:38px;
+  color:#6b4343;
+  border-bottom:2px dashed #e8b4b8;
+  display:inline-block;
+  padding:0 12px;
+}
+
+.main-photo{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:50%;
+  border:5px solid white;
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
+  margin:15px auto;
+  display:block;
+}
+
+.duties{
+  text-align:left;
+  background:white;
+  border:1px solid #f0dddd;
+  border-radius:15px;
+  padding:12px;
+  font-size:12px;
+  line-height:1.7;
+  margin-top:15px;
+}
+
+.final-photo{
+  width:180px;
+  height:180px;
+  object-fit:cover;
+  border-radius:15px;
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
+  margin:15px auto;
+  display:block;
+}
+
+.song-box{
+  background:#fff0f2;
+  border-radius:18px;
+  padding:15px;
+  margin-top:15px;
+}
+
+.song-title{
+  font-family:'Caveat',cursive;
+  font-size:27px;
+  color:#d86c76;
 }
 </style>
 </head>
@@ -157,237 +236,404 @@ textarea{
 
 <div class="container">
 
-  <!-- START -->
-  <div class="card" id="startPage">
+<!-- PAGE 1 -->
+<div class="card" id="page1">
 
-    <div class="heart">💌</div>
+  <div class="heart">💌</div>
 
-    <div class="small">A little surprise for someone special</div>
+  <div class="small">A little surprise</div>
 
-    <h1>Hey You! ♡</h1>
+  <h1>Hey You! ♡</h1>
+
+  <p>
+    Create a little memory-filled surprise
+    for someone special.
+  </p>
+
+  <div class="input-group">
+    <label>Who is this surprise for? 💕</label>
+    <input type="text" id="receiverName"
+           placeholder="Enter their name">
+  </div>
+
+  <div class="input-group">
+    <label>Your name ✨</label>
+    <input type="text" id="senderName"
+           placeholder="Enter your name">
+  </div>
+
+  <button class="btn" onclick="goPage(2)">
+    Next ✨
+  </button>
+
+</div>
+
+
+<!-- PAGE 2 -->
+<div class="card hidden" id="page2">
+
+  <div class="small">Step 2</div>
+
+  <h2>Add Photos 📸</h2>
+
+  <p>
+    Choose the pictures you want to include.
+  </p>
+
+  <div class="input-group">
+    <label>Main photo</label>
+    <input type="file" id="mainPhoto" accept="image/*">
+  </div>
+
+  <div class="input-group">
+    <label>Cute / funny photos</label>
+    <input type="file" id="memoryPhotos"
+           accept="image/*" multiple>
+  </div>
+
+  <button class="btn" onclick="goPage(3)">
+    Next 💕
+  </button>
+
+</div>
+
+
+<!-- PAGE 3 -->
+<div class="card hidden" id="page3">
+
+  <div class="small">Step 3</div>
+
+  <h2>Write Something 💭</h2>
+
+  <p>
+    Write a message that you want them to read.
+  </p>
+
+  <textarea id="message"
+            rows="7"
+            placeholder="Write your message here..."></textarea>
+
+  <button class="btn" onclick="goPage(4)">
+    Next ✨
+  </button>
+
+</div>
+
+
+<!-- PAGE 4 -->
+<div class="card hidden" id="page4">
+
+  <div class="small">Step 4</div>
+
+  <h2>Cute & Funny Memories 😂</h2>
+
+  <p>
+    These pictures will appear in the memory section.
+  </p>
+
+  <div id="memoryPreview" class="preview-grid"></div>
+
+  <button class="btn" onclick="goPage(5)">
+    Next 🎵
+  </button>
+
+</div>
+
+
+<!-- PAGE 5 -->
+<div class="card hidden" id="page5">
+
+  <div class="small">Step 5</div>
+
+  <h2>Our Song 🎵</h2>
+
+  <p>
+    Add a song for the surprise.
+  </p>
+
+  <div class="input-group">
+    <label>Choose song</label>
+    <input type="file" id="song"
+           accept="audio/*">
+  </div>
+
+  <div class="song-box">
+
+    <div class="song-title">
+      A little song for this moment ♡
+    </div>
+
+    <audio id="songPlayer"
+           controls
+           style="width:100%;margin-top:10px;">
+    </audio>
+
+  </div>
+
+  <button class="btn" onclick="goPage(6)">
+    Next 🏆
+  </button>
+
+</div>
+
+
+<!-- PAGE 6 -->
+<div class="card hidden" id="page6">
+
+  <div class="small">Step 6</div>
+
+  <h2>Certificate 🏆</h2>
+
+  <div class="certificate">
+
+    <div class="cert-title">
+      Certificate of Being My Favourite Person
+    </div>
 
     <p>
-      Let's create a little surprise
-      filled with memories, pictures and love.
+      This certificate is proudly presented to
     </p>
 
-    <div class="input-group">
-      <label>Who is this surprise for? 💕</label>
-      <input
-        type="text"
-        id="receiverName"
-        placeholder="Enter their name"
-      >
+    <div class="cert-name"
+         id="certificateName">
+      Your Name
     </div>
 
-    <div class="input-group">
-      <label>Your name ✨</label>
-      <input
-        type="text"
-        id="senderName"
-        placeholder="Enter your name"
-      >
-    </div>
+    <img id="certificatePhoto"
+         class="main-photo"
+         alt="Memory">
 
-    <button class="btn" onclick="goToPhotos()">
-      Next ✨
-    </button>
+    <div class="duties">
+
+      ✿ Official favourite person<br>
+
+      ✿ Professional smile maker<br>
+
+      ✿ Certified memory collector<br>
+
+      ✿ Valid forever ♡
+
+    </div>
 
   </div>
 
+  <button class="btn" onclick="goPage(7)">
+    Continue 💌
+  </button>
 
-  <!-- PHOTOS -->
-  <div class="card hidden" id="photoPage">
+</div>
 
-    <div class="small">Step 2</div>
 
-    <div class="step-title">
-      Add Your Memories 📸
-    </div>
+<!-- PAGE 7 -->
+<div class="card hidden" id="page7">
 
-    <p>
-      Choose the pictures you want to include
-      in the surprise.
-    </p>
+  <div class="small">One last thing...</div>
 
-    <div class="input-group">
-      <label>Main photo</label>
-      <input
-        type="file"
-        id="mainPhoto"
-        accept="image/*"
-      >
-    </div>
+  <h2>For You 💌</h2>
 
-    <div class="input-group">
-      <label>Cute / funny photos</label>
-      <input
-        type="file"
-        id="funnyPhotos"
-        accept="image/*"
-        multiple
-      >
-    </div>
+  <img id="finalPhoto"
+       class="final-photo"
+       alt="Final memory">
 
-    <div id="photoPreview" class="preview-grid"></div>
-
-    <button class="btn" onclick="goToMessage()">
-      Next 💕
-    </button>
-
+  <div class="note"
+       id="finalNote">
   </div>
 
+  <p style="margin-top:20px;">
+    Made with lots of memories ♡
+  </p>
 
-  <!-- MESSAGE -->
-  <div class="card hidden" id="messagePage">
-
-    <div class="small">Step 3</div>
-
-    <div class="step-title">
-      Write Your Message 💭
-    </div>
-
-    <p>
-      Write anything you want them to read.
-    </p>
-
-    <textarea
-      id="personalMessage"
-      rows="7"
-      placeholder="Write your heart out here... 💌"
-    ></textarea>
-
-    <button class="btn" onclick="showPreview()">
-      Next ✨
-    </button>
-
+  <div id="finalNames"
+       style="font-family:'Caveat';font-size:26px;color:#d86c76;">
   </div>
 
-
-  <!-- PREVIEW -->
-  <div class="card hidden" id="previewPage">
-
-    <div class="heart">🫶🏻</div>
-
-    <div class="small">
-      Your surprise is coming together
-    </div>
-
-    <h2 id="previewTitle">
-      A little surprise ♡
-    </h2>
-
-    <div class="note" id="previewMessage"></div>
-
-    <div id="previewPhotos" class="preview-grid"></div>
-
-    <button class="btn" onclick="alert('Next we will add the song, certificate and final note! 🎵💌')">
-      Continue ✨
-    </button>
-
-  </div>
+</div>
 
 </div>
 
 
 <script>
 
-let receiver = "";
-let sender = "";
+let receiverName = "";
+let senderName = "";
 
-function goToPhotos(){
+function goPage(number){
 
-  receiver =
-    document.getElementById("receiverName").value.trim();
+  if(number === 2){
 
-  sender =
-    document.getElementById("senderName").value.trim();
+    receiverName =
+      document.getElementById("receiverName").value.trim();
 
-  if(receiver === "" || sender === ""){
-    alert("Please enter both names 💕");
-    return;
+    senderName =
+      document.getElementById("senderName").value.trim();
+
+    if(!receiverName || !senderName){
+      alert("Please enter both names 💕");
+      return;
+    }
   }
 
-  document.getElementById("startPage").classList.add("hidden");
+  if(number === 3){
 
-  document.getElementById("photoPage").classList.remove("hidden");
+    const mainPhoto =
+      document.getElementById("mainPhoto").files[0];
 
+    if(!mainPhoto){
+      alert("Please choose a main photo 📸");
+      return;
+    }
+  }
+
+  if(number === 4){
+
+    const text =
+      document.getElementById("message").value.trim();
+
+    if(!text){
+      alert("Please write a message 💌");
+      return;
+    }
+
+    createMemoryPreview();
+  }
+
+  if(number === 5){
+
+    const song =
+      document.getElementById("song").files[0];
+
+    if(song){
+
+      const player =
+        document.getElementById("songPlayer");
+
+      player.src =
+        URL.createObjectURL(song);
+    }
+  }
+
+  if(number === 6){
+    prepareCertificate();
+  }
+
+  if(number === 7){
+    prepareFinalPage();
+  }
+
+  for(let i=1;i<=7;i++){
+    document
+      .getElementById("page"+i)
+      .classList.add("hidden");
+  }
+
+  document
+    .getElementById("page"+number)
+    .classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
 
-function goToMessage(){
+function createMemoryPreview(){
 
-  const mainPhoto =
-    document.getElementById("mainPhoto").files[0];
+  const container =
+    document.getElementById("memoryPreview");
 
-  const funnyPhotos =
-    document.getElementById("funnyPhotos").files;
+  container.innerHTML = "";
 
-  if(!mainPhoto){
-    alert("Please choose a main photo 📸");
+  const files =
+    document.getElementById("memoryPhotos").files;
+
+  if(files.length === 0){
+
+    container.innerHTML =
+      "<p>No memory photos added yet.</p>";
+
     return;
   }
 
-  document.getElementById("photoPage").classList.add("hidden");
+  Array.from(files).slice(0,6).forEach(file=>{
 
-  document.getElementById("messagePage").classList.remove("hidden");
+    const reader =
+      new FileReader();
 
+    reader.onload=function(e){
+
+      const div =
+        document.createElement("div");
+
+      div.className="polaroid";
+
+      div.innerHTML =
+        `<img src="${e.target.result}">`;
+
+      container.appendChild(div);
+    };
+
+    reader.readAsDataURL(file);
+  });
 }
 
 
-function showPreview(){
+function prepareCertificate(){
 
-  const message =
-    document.getElementById("personalMessage").value.trim();
+  document.getElementById("certificateName")
+    .innerText = receiverName;
 
-  if(message === ""){
-    alert("Please write a message 💌");
-    return;
-  }
-
-  document.getElementById("messagePage").classList.add("hidden");
-
-  document.getElementById("previewPage").classList.remove("hidden");
-
-  document.getElementById("previewTitle").innerText =
-    "For " + receiver + " ♡";
-
-  document.getElementById("previewMessage").innerText =
-    message;
-
-  const preview =
-    document.getElementById("previewPhotos");
-
-  preview.innerHTML = "";
-
-  const mainFile =
+  const file =
     document.getElementById("mainPhoto").files[0];
 
-  const funnyFiles =
-    document.getElementById("funnyPhotos").files;
+  if(file){
 
-  const allFiles =
-    [mainFile, ...Array.from(funnyFiles)];
+    const reader =
+      new FileReader();
 
-  allFiles.slice(0,6).forEach(file => {
+    reader.onload=function(e){
 
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-
-      const img =
-        document.createElement("img");
-
-      img.src = e.target.result;
-
-      preview.appendChild(img);
+      document.getElementById(
+        "certificatePhoto"
+      ).src=e.target.result;
 
     };
 
     reader.readAsDataURL(file);
+  }
+}
 
-  });
 
+function prepareFinalPage(){
+
+  const message =
+    document.getElementById("message").value.trim();
+
+  document.getElementById("finalNote")
+    .innerText = message;
+
+  document.getElementById("finalNames")
+    .innerText =
+    senderName + " ♡ " + receiverName;
+
+  const file =
+    document.getElementById("mainPhoto").files[0];
+
+  if(file){
+
+    const reader =
+      new FileReader();
+
+    reader.onload=function(e){
+
+      document.getElementById(
+        "finalPhoto"
+      ).src=e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+  }
 }
 
 </script>
